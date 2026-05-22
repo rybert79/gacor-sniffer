@@ -24,7 +24,7 @@ Proyek ini diinisialisasi dan dikembangkan dengan tujuan strategis sebagai berik
 > **PENTING untuk Diperhatikan:**
 > 
 > 1. **Keperluan Akademis:** Alat ini dibuat murni untuk keperluan riset, partisipasi perlombaan Hackathon, dan analisis forensik digital defensif.
-> 2. **Kepatuhan Hukum:** Pengembang tidak bertanggung jawab atas penyalahgunaan alat ini untuk aktivitas pemindaian agresif atau tanpa izin (*unauthorized scanning*) yang melanggar hukum siber setempat (seperti UU ITE di Indonesia).
+> 2. **Kepatuhan Hukum:** Pengembang tidak bertanggung jawab atas penyalahgunaan alat ini untuk aktivitas pemindaian agresif atau tanpa izin (*unauthorized scanning*) yang melanggar hukum siber setempat atau apapun itu yang melanggar hukum (seperti UU ITE di Indonesia).
 > 3. **Etika Jaringan:** Sistem ini telah dilengkapi pembatas kecepatan (*rate-limiting*) internal guna menghormati performa server target serta mematuhi batas wajar penggunaan jaringan (*fair use*).
 
 ---
