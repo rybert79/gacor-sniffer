@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import sqlite3
 import os
 import time
+import re
 from urllib.parse import urlparse
 from ddgs import DDGS
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -24,13 +25,31 @@ def save_to_db(url, title, score):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     db_path = os.path.join(base_dir, 'judol_archive.db')
     
+    # 1. Penerapan Sensor (Defanging) URL sebelum masuk ke database publik
+    defanged_url = url.replace("http://", "hxxp://").replace("https://", "hxxps://")
+    parts = defanged_url.split('/')
+    if len(parts) > 2:
+        domain = parts[2]
+        if len(domain) > 5:
+            # Sensor bagian tengah domain (misal: websitegacor.com -> web****cor.com)
+            censored_domain = domain[:3] + "****" + domain[-4:]
+            defanged_url = defanged_url.replace(domain, censored_domain)
+            
+    # 2. Penerapan Sensor Judul Situs (Title Scrubbing) berdasarkan kata kunci SIGNATURES
+    censored_title = title
+    for keyword in SIGNATURES.keys():
+        if keyword in censored_title.lower():
+            # Cari kata sensitif tanpa pandang huruf besar/kecil lalu samarkan menjadi ****
+            insens_keyword = re.compile(re.escape(keyword), re.IGNORECASE)
+            censored_title = insens_keyword.sub("****", censored_title)
+            
     # timeout=20 dipasang agar jika banyak thread mengantre menulis ke DB, tidak terjadi error 'database is locked'
     conn = sqlite3.connect(db_path, timeout=20)
     cursor = conn.cursor()
     try:
         cursor.execute(
             "INSERT OR IGNORE INTO suspects (url, site_title, confidence_score) VALUES (?, ?, ?)",
-            (url, title, score)
+            (defanged_url, censored_title, score)
         )
         conn.commit()
     except Exception:
@@ -67,10 +86,11 @@ def scan_single_url(index, total, url):
         
         if match_percentage >= 25:
             save_to_db(url, title, match_percentage)
-            print(f"    [!] POSITIF [{match_percentage}%] -> {parsed_domain}")
-        # hapus comment line 73-78 untuk pemberitahuan yang lebih detail dn hapus line 76 secara menyeluruh
-        # else:
-            # print(f"    [-] BERSIH -> {parsed_domain}")
+            # ubah line dibawah menjadi print(f"    [!] POSITIF [{match_percentage}%] -> {parsed_domain}") untuk mereveal link 
+            print(f"    [!] POSITIF [{match_percentage}%] -> ********")
+        # hapus comment line 97 untuk pemberitahuan yang lebih detail dn hapus line 96 secara menyeluruh
+        else:
+            pass
 
     except Exception:
         a = 1
@@ -109,7 +129,7 @@ if __name__ == "__main__":
                         index_url = f"{parsed_url.scheme}://{parsed_url.netloc}/"
                         
                         domain_name = parsed_url.netloc.lower()
-                        # banned wabsite yang sudah jelas bukan situs slot
+                        # banned website yang sudah jelas bukan situs slot
                         banned_domains = ["google", "facebook", "duckduckgo", "instagram", "twitter", "linkedin", "youtube", "wikipedia", "github", "quora", "reddit", "scribd", "x", "pixabay", "wikihow", "bing"]
                         if not any(x in domain_name for x in banned_domains):
                             if index_url not in targets:
