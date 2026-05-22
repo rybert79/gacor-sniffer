@@ -13,7 +13,7 @@ Proyek ini dikembangkan sebagai inovasi teknologi dalam mendukung Keamanan Siber
 ## 🎯 Tujuan Pengembangan Proyek
 
 Proyek ini diinisialisasi dan dikembangkan dengan tujuan strategis sebagai berikut:
-1. **Inovasi cyber-security:** Menjadi solusi teknologi preventif dalam membantu pihak berwenang melakukan pemetaan (*mapping*) dan pengawasan dini terhadap penyebaran situs web ilegal yang merugikan masyarakat.
+1. **Inovasi cyber-security:** Menjadi solusi teknologi preventif dalam membantu pihak berwenang melakukan pemetaan (*mapping*) dan pengawasan dini terhadap penyebaran situs web ilegal yang merugikan masyarakat, saya juga berharap agar ide ini bisa dikembangkang lagi ke arah yang lebih baik.
 2. **Skalabilitas Pemantauan:** Membuktikan bahwa pemindaian open-source berbasis intelijen (OSINT) dapat dilakukan secara cepat, efisien, dan ramah sumber daya tanpa ketergantungan pada API berbayar yang kaku.
 3. **Riset & Edukasi Keamanan Siber:** Sebagai media pembelajaran arsitektur pemrograman pararel (*multi-threading*), analisis heuristik konten web, serta integrasi sistem pangkalan data relasional terdistribusi.
 
